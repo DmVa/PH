@@ -1,0 +1,25 @@
+﻿<Window x:Class="PH.Win.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PH.Win.Views"
+        mc:Ignorable="d"
+        Height="350" Width="900" WindowStartupLocation="CenterScreen" 
+        Title="Progress Helper" Topmost="True">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <local:MenuPanel Grid.Row="0" Grid.ColumnSpan="2" />
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <local:Users Grid.Row="0" VerticalAlignment="Top" MinHeight="200"/>
+            <local:UserTasks Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" MinHeight="200" />
+        </Grid>
+    </Grid>
+</Window>
