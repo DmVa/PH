@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PH.Win.Views"
         mc:Ignorable="d"
-        Height="350" Width="900" WindowStartupLocation="CenterScreen" 
+        Height="350" Width="950" WindowStartupLocation="CenterScreen" 
         Title="Progress Helper" Topmost="True">
     <Grid>
         <Grid.RowDefinitions>
@@ -15,11 +15,11 @@
         <local:MenuPanel Grid.Row="0" Grid.ColumnSpan="2" />
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="220"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <local:Users Grid.Row="0" VerticalAlignment="Top" MinHeight="200"/>
-            <local:UserTasks Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" MinHeight="200" />
+            <local:Users Grid.Row="0" VerticalAlignment="Top" MinHeight="300"/>
+            <local:UserTasks Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" MinHeight="300" />
         </Grid>
     </Grid>
 </Window>
