@@ -34,7 +34,7 @@ namespace PH.Data
                 case DayOfWeek.Sunday:
                     date = date.AddDays(-2);
                     break;
-                case DayOfWeek.Saturday:
+                default:
                     date = date.AddDays(-1);
                     break;
             }
