@@ -12,7 +12,7 @@
             <ListView.View>
                 <GridView>
 
-                    <GridViewColumn Header="Comment" Width="150" >
+                    <GridViewColumn Header="Comment" Width="160" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Path=Worklog.BookedComments}" />
@@ -36,7 +36,7 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     
-                    <GridViewColumn Header="Summary" Width="150" >
+                    <GridViewColumn Header="Summary" Width="170" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Path=Issue.Summary}" />
@@ -57,7 +57,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Status" Width="60" >
+                    <GridViewColumn Header="Status" Width="80" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Path=Issue.Status}" />

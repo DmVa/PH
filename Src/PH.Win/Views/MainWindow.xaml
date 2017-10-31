@@ -15,11 +15,13 @@
         <local:MenuPanel Grid.Row="0" Grid.ColumnSpan="2" />
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="220"/>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="4"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <local:Users Grid.Row="0" VerticalAlignment="Top" MinHeight="300"/>
-            <local:UserTasks Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" MinHeight="300" />
+            <local:Users Grid.Column="0" VerticalAlignment="Top" MinHeight="300"/>
+            <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" />
+            <local:UserTasks Grid.Column="2" VerticalAlignment="Top" MinHeight="300" />
         </Grid>
     </Grid>
 </Window>
