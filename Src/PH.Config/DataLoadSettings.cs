@@ -23,5 +23,6 @@ namespace PH.Config
         public int TeamId { get; set; }
         
         public int StoryPointFieldId { get; set; }
+        public int SprintId { get; internal set; }
     }
 }

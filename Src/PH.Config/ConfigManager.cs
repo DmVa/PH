@@ -32,6 +32,7 @@ namespace PH.Config
             settings.Credentials.UrlBase = "https://preciseres.atlassian.net";
             settings.TeamId = 2;// Dev team
             settings.StoryPointFieldId = 10004;
+            settings.SprintId = 70;
             return settings;
         }
     }

@@ -54,6 +54,7 @@
     <Compile Include="JiraData\AuthorTempo.cs" />
     <Compile Include="JiraData\IssueFieldsJira.cs" />
     <Compile Include="JiraData\IssueJira.cs" />
+    <Compile Include="JiraData\IssuesListJira.cs" />
     <Compile Include="JiraData\IssueStatusJira.cs" />
     <Compile Include="JiraData\IssueTempo.cs" />
     <Compile Include="JiraData\TeamMembershipTempo.cs" />

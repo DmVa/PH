@@ -75,10 +75,10 @@ namespace PH.Data
         }
 
         // key -user key
-        public Dictionary<string, List<WorklogLine>> GetTeamWorklog(DateTime date)
+        public Dictionary<string, List<WorklogLine>> GetTeamWorklog(DateTime dateFrom, DateTime dateTo)
         {
             var result = new Dictionary<string, List<WorklogLine>>();
-            var worklogs = GetWorklog(date);
+            var worklogs = GetWorklog(dateFrom, dateTo);
             var issueCache = new Dictionary<string, IssueData>();// key ->issue key
             foreach (var worklog in worklogs)
             {
@@ -111,12 +111,13 @@ namespace PH.Data
             return result;
         }
 
-        public List<WorklogData> GetWorklog(DateTime date)
+        public List<WorklogData> GetWorklog(DateTime dateFrom, DateTime dateTo)
         {
             var result = new List<WorklogData>();
             var jira = GetClient();
-            string dateStr = date.ToString("yyyy-MM-dd");
-            var task = jira.RestClient.ExecuteRequestAsync<List<WorklogTempo>>(Method.GET, $"/rest/tempo-timesheets/3/worklogs?dateFrom={dateStr}&dateTo={dateStr}&teamId={_loadSettings.TeamId}");
+            string dateFromStr = dateFrom.ToString("yyyy-MM-dd");
+            string dateToStr = dateTo.ToString("yyyy-MM-dd");
+            var task = jira.RestClient.ExecuteRequestAsync<List<WorklogTempo>>(Method.GET, $"/rest/tempo-timesheets/3/worklogs?dateFrom={dateFromStr}&dateTo={dateToStr}&teamId={_loadSettings.TeamId}");
 
             task.Wait();
             foreach (var worklog in task.Result)
@@ -140,17 +141,72 @@ namespace PH.Data
 
             task.Wait();
             IssueJira issue = task.Result;
-            if (issue != null)
-            {
-                result = new IssueData();
-                result.Key = issue.Key;
-                result.Status = issue.Fields?.Status?.Name ?? "";
-                result.Summary = issue.Fields?.Summary;
-                result.OriginalEstimateHours = (issue.Fields?.Customfield_10004 * 4).ToString();
-                result.TimeSpentHours = ((double)issue.Fields?.Timespent / 60 / 60).ToString("F1");
-            }
+            result = IssueJiraToIssuesData(issue);
+            
 
        
+            return result;
+        }
+
+        private IssueData IssueJiraToIssuesData(IssueJira issue)
+        {
+
+
+            if (issue == null)
+                return null;
+
+            IssueData result = new IssueData();
+            result.Key = issue.Key;
+            result.Status = issue.Fields?.Status?.Name ?? "";
+            result.Summary = issue.Fields?.Summary;
+            result.OriginalEstimateHours = (issue.Fields?.Customfield_10004 * 4).ToString();
+            result.TimeSpentHours = ((double)issue.Fields?.Timespent / 60 / 60).ToString("F1");
+
+            return result;
+        }
+
+        public List<IssueData> GetIssues(int sprintid)
+        {
+            int startAt = 0;
+            bool isAllGet = false;
+            List<IssuesListJira> pages = new List<IssuesListJira>();
+            while (!isAllGet)
+            {
+                IssuesListJira issuesPage = GetIssues(sprintid, startAt);
+                pages.Add(issuesPage);
+                bool isAllget = (issuesPage.StartAt + issuesPage.MaxResults) >= issuesPage.Total;
+                startAt = startAt + issuesPage.MaxResults;
+            }
+            List<IssueData> result = new List<IssueData>();
+
+            foreach (var issuePage in pages)
+            {
+                if (issuePage.Issues != null)
+                {
+                    foreach (var issue in issuePage.Issues)
+                    {
+                        IssueData dataItem = IssueJiraToIssuesData(issue);
+                        if (dataItem != null)
+                            result.Add(dataItem);
+                    }
+
+                }
+            }
+
+            return result;
+        }
+
+        private IssuesListJira GetIssues(int sprintid, int startAt)
+        {
+            IssuesListJira result = null;
+            var jira = GetClient();
+            var task = jira.RestClient.ExecuteRequestAsync<IssuesListJira>(Method.GET, $"/rest/api/2/search?startAt={startAt}jql=Sprint={sprintid}");
+
+            task.Wait();
+
+            IssuesListJira issue = task.Result;
+          
+
             return result;
         }
     }

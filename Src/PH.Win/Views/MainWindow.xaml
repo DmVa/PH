@@ -21,7 +21,15 @@
             </Grid.ColumnDefinitions>
             <local:Users Grid.Column="0" VerticalAlignment="Top" MinHeight="300"/>
             <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" />
-            <local:UserTasks Grid.Column="2" VerticalAlignment="Top" MinHeight="300" />
+            <TabControl Grid.Column="2">
+                <TabItem Header="Worklog" >
+                    <local:UserTasks  VerticalAlignment="Top" MinHeight="300" />
+                </TabItem>
+                <TabItem Header="Sprint" >
+                    <local:UserTasks  VerticalAlignment="Top" />
+                </TabItem>
+            </TabControl>
+            
         </Grid>
     </Grid>
 </Window>

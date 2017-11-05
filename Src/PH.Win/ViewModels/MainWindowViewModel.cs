@@ -133,7 +133,7 @@ namespace PH.Win.ViewModels
         private void DoLoadData()
         {
             SelectedUser = null;
-            _teamWorklog = _dataService.GetTeamWorklog(_currentDate);
+            _teamWorklog = _dataService.GetTeamWorklog(_currentDate, _currentDate);
         }
     }
 }
