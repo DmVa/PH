@@ -7,6 +7,7 @@ using PH.Config;
 using Atlassian.Jira;
 using RestSharp;
 using PH.Data.JiraData;
+using System.Threading;
 
 namespace PH.Data
 {
@@ -72,6 +73,11 @@ namespace PH.Data
                 }
             }
             return result;
+        }
+
+        public Task<List<UserData>> LoadUsersAsync()
+        {
+            return Task.Run(() => { return LoadUsers(); });
         }
 
         // key -user key

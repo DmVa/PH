@@ -93,12 +93,13 @@ namespace PH.Win.ViewModels
 
             }
         }
-        public void Init(DataService dataService)
+
+        public async void Init(DataService dataService)
         {
             _dataService = dataService;
             CurrentDate = dataService.GetDefaultDate();
             CreateCommands();
-            Users = _dataService.LoadUsers();
+            Users = await _dataService.LoadUsersAsync();
         }
 
         #region "Commands"
