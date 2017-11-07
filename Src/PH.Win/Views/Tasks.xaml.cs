@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace PH.Win.Views
 {
     /// <summary>
-    /// Interaction logic for UserTasks.xaml
+    /// Interaction logic for Tasks.xaml
     /// </summary>
-    public partial class UserTasks : UserControl
+    public partial class Tasks : UserControl
     {
-        public UserTasks()
+        public Tasks()
         {
             InitializeComponent();
         }

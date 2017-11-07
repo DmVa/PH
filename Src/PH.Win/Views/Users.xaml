@@ -7,14 +7,21 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <ListView Grid.Row="0" x:Name="UsersList" ItemsSource="{Binding Path=Users}"  SelectedItem="{Binding Path=SelectedUser}" SelectionMode="Single"  >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        
+        <Button Grid.Row="0" Content="Get Users" Margin="5" Width="60" HorizontalAlignment="Left"  Command="{Binding LoadUsersCommand}"/>
+        
+        <ListView Grid.Row="1" x:Name="UsersList" ItemsSource="{Binding Path=Users}"  SelectedItem="{Binding Path=SelectedUser}" SelectionMode="Single"  >
             <ListView.View>
                 <GridView>
 
-                    <GridViewColumn Header="User" >
+                    <GridViewColumn Header="User"  >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding DisplayName}" />
+                                <TextBlock Text="{Binding DisplayName}" MinWidth="80" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

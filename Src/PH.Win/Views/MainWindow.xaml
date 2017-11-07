@@ -9,7 +9,7 @@
         Title="Progress Helper" Topmost="True">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="35"/>
+            <RowDefinition Height="1"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <local:MenuPanel Grid.Row="0" Grid.ColumnSpan="2" />
@@ -23,10 +23,13 @@
             <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" />
             <TabControl Grid.Column="2">
                 <TabItem Header="Worklog" >
-                    <local:UserTasks  VerticalAlignment="Top" MinHeight="300" />
+                    <local:Worklog  VerticalAlignment="Top" MinHeight="300" />
                 </TabItem>
                 <TabItem Header="Sprint" >
-                    <local:UserTasks  VerticalAlignment="Top" />
+                    <local:Tasks  VerticalAlignment="Top" />
+                </TabItem>
+                <TabItem Header="Settings" >
+                    <local:Settings  VerticalAlignment="Top" />
                 </TabItem>
             </TabControl>
             

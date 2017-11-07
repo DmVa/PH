@@ -21,17 +21,17 @@ namespace PH.Win
         
         private void Application_Startup(object sender, StartupEventArgs e)
         {
+            var appConfig = ConfigurationManager.GetSection(PHConfigSection.CONFIG_SECTION_NAME) as PHConfigSection;
+
+            var configManager = new ConfigManager(appConfig);
             
-            var settings = ConfigurationManager.GetSection(PHConfigSection.CONFIG_SECTION_NAME) as PHConfigSection;
-            DataService dataService = new DataService();
-            dataService.Init(settings);
             MainWindow mainWindow = new MainWindow();
             mainWindow.Show();
             MainWindowViewModel mainViewModel = new MainWindowViewModel();
-            mainViewModel.Init(dataService);
+            mainViewModel.Init(configManager);
             mainWindow.DataContext = mainViewModel;
-            if (mainViewModel.LoadCommand.CanExecute(null))
-                mainViewModel.LoadCommand.Execute(null);
+            //if (mainViewModel.LoadCommand.CanExecute(null))
+            //    mainViewModel.LoadCommand.Execute(null);
         }
 
         private void Application_DispatcherUnhandledException(object sender,

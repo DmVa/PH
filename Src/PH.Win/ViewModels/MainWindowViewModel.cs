@@ -1,4 +1,5 @@
-﻿using PH.Data;
+﻿using PH.Config;
+using PH.Data;
 using PH.Helpers;
 using PH.Helpers.Win;
 using System;
@@ -12,24 +13,51 @@ namespace PH.Win.ViewModels
 {
     public class MainWindowViewModel: BasePropertyChanged
     {
-        
-        private DateTime _currentDate;
-        private List<UserData> _users;
-        private BaseCommand _loadCommand = null;
         private bool _commandInProgress;
         private DataService _dataService;
-        private List<BaseCommand> _commandsList;
-        private List<WorklogLine> _userWorklog;
+        private ConfigManager _configManger;
+
+
+        
+        
+      
+
+        
         private UserData _selectedUser;
+        
+        private List<UserData> _users;
+
         Dictionary<string, List<WorklogLine>> _teamWorklog;
-        public DateTime CurrentDate
+        private DateTime _worklogFromDate;
+        private DateTime _worklogToDate;
+
+        private List<BaseCommand> _commandsList;
+        private BaseCommand _saveSettingsCommand;
+        private BaseCommand _loadUsersCommand;
+        private BaseCommand _loadSprintTasksCommand;
+        private BaseCommand _loadWorklogCommand;
+
+        public DateTime WorklogFromDate
         {
-            get { return _currentDate; }
+            get { return _worklogFromDate; }
             set
             {
-                _currentDate = value;
+                _worklogFromDate = value;
                 RaisePropertyChanged();
             }
+        }
+        public DateTime WorklogToDate
+        {
+            get { return _worklogToDate; }
+            set
+            {
+                _worklogToDate = value;
+                RaisePropertyChanged();
+            }
+        }
+        public DataLoadSettings Settings
+        {
+            get { return _configManger.Settings; }
         }
 
         public List<UserData> Users
@@ -51,72 +79,97 @@ namespace PH.Win.ViewModels
             {
                 _selectedUser = value;
                 RaisePropertyChanged();
-                SetSelectedUserWorklog();
+                RaisePropertyChanged("UserWorklog");
 
             }
         }
 
-        private void SetSelectedUserWorklog()
+        /// <summary>
+        /// This is list is shows worklog for selected user.
+        /// </summary>
+        public List<WorklogLine> UserWorklog
         {
-            if (_selectedUser == null)
+            get
             {
-                UserWorklog = null;
-            }
-            else
-            {
-
                 if (_teamWorklog != null)
                 {
                     if (_teamWorklog.ContainsKey(_selectedUser.Key))
                     {
-                        UserWorklog = _teamWorklog[SelectedUser.Key];
+                        return _teamWorklog[SelectedUser.Key];
                     }
                     else
                     {
-                        UserWorklog = null;
+                        return null;
                     }
                 }
                 else
                 {
-                    UserWorklog = null;
+                    return null;
                 }
             }
         }
 
-        public List<WorklogLine> UserWorklog
+        public void Init(ConfigManager configManager)
         {
-            get { return _userWorklog; }
-            set
-            {
-                _userWorklog = value;
-                RaisePropertyChanged();
+            _configManger = configManager;
+            _configManger.Init();
 
-            }
-        }
-
-        public async void Init(DataService dataService)
-        {
-            _dataService = dataService;
-            CurrentDate = dataService.GetDefaultDate();
+            _dataService = new DataService();
+            _dataService.Init(_configManger.Settings);
+            WorklogFromDate = _dataService.GetDefaultDate();
+            WorklogToDate = _dataService.GetDefaultDate();
             CreateCommands();
-            Users = await _dataService.LoadUsersAsync();
         }
-
         #region "Commands"
-        public ICommand LoadCommand
+
+        public ICommand LoadWorklogCommand
         {
-            get { return _loadCommand; }
+            get { return _loadWorklogCommand; }
         }
 
-   
+     
+        public ICommand SaveSettingsCommand
+        {
+            get { return _saveSettingsCommand; }
+        }
 
-        #endregion
+        public ICommand LoadUsersCommand
+        {
+            get { return _loadUsersCommand; }
+        }
+
+        public ICommand LoadSprintTasksCommand
+        {
+            get { return _loadSprintTasksCommand; }
+        }
+#endregion
 
         private void CreateCommands()
         {
             _commandsList = new List<BaseCommand>();
-            _loadCommand = new BaseCommand(DoLoadData, CanRunCommands, SetCommandInProgress);
-            _commandsList.Add(_loadCommand);
+            _loadWorklogCommand = new BaseCommand(DoLoadworklog, CanRunCommands, SetCommandInProgress);
+            _commandsList.Add(_loadWorklogCommand);
+            _saveSettingsCommand = new BaseCommand(DoSaveSettings, CanRunCommands, SetCommandInProgress);
+            _commandsList.Add(_saveSettingsCommand);
+            _loadUsersCommand = new BaseCommand(DoLoadUsers, CanRunCommands, SetCommandInProgress);
+            _commandsList.Add(_loadUsersCommand);
+            _loadSprintTasksCommand = new BaseCommand(DoLoadSprintTasks, CanRunCommands, SetCommandInProgress);
+            _commandsList.Add(_loadSprintTasksCommand);
+        }
+
+        private void DoLoadSprintTasks()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void DoLoadUsers()
+        {
+            Users = _dataService.LoadUsers();
+        }
+
+        private void DoSaveSettings()
+        {
+            _configManger.SaveSettings();
         }
 
         private void SetCommandInProgress(bool value)
@@ -131,10 +184,14 @@ namespace PH.Win.ViewModels
             return !_commandInProgress;
         }
 
-        private void DoLoadData()
+        private void DoLoadworklog()
         {
-            SelectedUser = null;
-            _teamWorklog = _dataService.GetTeamWorklog(_currentDate, _currentDate);
+
+            _teamWorklog = _dataService.GetTeamWorklog(_worklogFromDate, _worklogToDate);
+            if (SelectedUser != null)
+            {
+                RaisePropertyChanged("UserWorklog");
+            }
         }
     }
 }

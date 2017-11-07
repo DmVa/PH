@@ -6,8 +6,5 @@
              xmlns:local="clr-namespace:PH.Win.Views"
              mc:Ignorable="d" 
              d:DesignHeight="35" d:DesignWidth="300">
-    <StackPanel Orientation="Horizontal">
-        <Button Content="Load" Margin="5" Width="40" Command="{Binding LoadCommand}"/>
-        <DatePicker Margin="5"  SelectedDate="{Binding Path=CurrentDate, Mode=TwoWay}" />
-    </StackPanel>
+   
 </UserControl>

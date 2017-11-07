@@ -13,14 +13,10 @@ namespace PH.Data
 {
     public class DataService
     {
-
-        private ConfigManager _configManager;
         private DataLoadSettings _loadSettings;
-        public void Init(PHConfigSection settings)
+        public void Init(DataLoadSettings loadSettings)
         {
-            _configManager = new ConfigManager(settings);
-            _configManager.Load();
-            _loadSettings = _configManager.Settings;
+            _loadSettings = loadSettings;
         }
 
         public DateTime GetDefaultDate()
@@ -54,7 +50,7 @@ namespace PH.Data
         {
             var result = new List<UserData>();
             var jira = GetClient();
-            var usersTask = jira.RestClient.ExecuteRequestAsync<List<UserTempo>>(Method.GET, $"/rest/tempo-teams/2/team/{_loadSettings.TeamId}/member");
+            var usersTask = jira.RestClient.ExecuteRequestAsync<List<UserTempo>>(Method.GET, $"/rest/tempo-teams/2/team/{_loadSettings.Team.TeamId}/member");
        
             usersTask.Wait();
             foreach (var user in usersTask.Result)
@@ -123,7 +119,7 @@ namespace PH.Data
             var jira = GetClient();
             string dateFromStr = dateFrom.ToString("yyyy-MM-dd");
             string dateToStr = dateTo.ToString("yyyy-MM-dd");
-            var task = jira.RestClient.ExecuteRequestAsync<List<WorklogTempo>>(Method.GET, $"/rest/tempo-timesheets/3/worklogs?dateFrom={dateFromStr}&dateTo={dateToStr}&teamId={_loadSettings.TeamId}");
+            var task = jira.RestClient.ExecuteRequestAsync<List<WorklogTempo>>(Method.GET, $"/rest/tempo-timesheets/3/worklogs?dateFrom={dateFromStr}&dateTo={dateToStr}&teamId={_loadSettings.Team.TeamId}");
 
             task.Wait();
             foreach (var worklog in task.Result)

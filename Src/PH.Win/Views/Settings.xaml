@@ -1,0 +1,82 @@
+﻿<UserControl x:Class="PH.Win.Views.Settings"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PH.Win.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="600" >
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <StackPanel HorizontalAlignment="Left" >
+            <Button Content="Save" Margin="5" Width="40" Command="{Binding SaveSettingsCommand}"></Button>
+        </StackPanel>
+        <GroupBox Grid.Row="1" Header="Sprint" VerticalAlignment="Top"  DataContext="{Binding Path=Settings}">
+            <Grid VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Date From"/>
+                <DatePicker Grid.Column="1" SelectedDate="{Binding Path=Sprint.DateFrom}"/>
+                <TextBlock Grid.Row="1"  Text="Date To"/>
+                <DatePicker Grid.Row="1" Grid.Column="1" SelectedDate="{Binding Path=Sprint.DateTo}"/>
+                <TextBlock Grid.Row="2"  Text="Sprint Number"/>
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Path=Sprint.SprintId}" Margin="2"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox Grid.Row="1" Header="Team" Grid.Column="1" VerticalAlignment="Top" DataContext="{Binding Path=Settings}">
+            <Grid VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0"  Text="Team Id"/>
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=Team.TeamId}" Margin="2"/>
+                
+                <TextBlock Grid.Row="1"  Text="Reserved days"/>
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Team.ReservedDaysForAllTeam}" Margin="2"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox Grid.Row="1" Header="Credentials" Grid.Column="2" VerticalAlignment="Top" DataContext="{Binding Path=Settings}">
+            <Grid VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0"  Text="Url Base"/>
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=Credentials.UrlBase}" Margin="2"/>
+                <TextBlock Grid.Row="1"  Text="User Name"/>
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Credentials.UserName}" Margin="2"/>
+                
+                <TextBlock Grid.Row="2"  Text="Password"/>
+                <PasswordBox PasswordChar="*" Grid.Row="2" Grid.Column="1" PasswordChanged="PasswordBox_PasswordChanged" Margin="2"/>
+                
+            </Grid>
+        </GroupBox>
+
+    </Grid>
+</UserControl>

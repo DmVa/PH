@@ -8,21 +8,26 @@ namespace PH.Config
 {
     public class DataLoadSettings
     {
-
-        private CredentialSettings _credentials;
-        
         public DataLoadSettings()
         {
-            _credentials = new CredentialSettings();
-       
+            Credentials = new CredentialSettings();
+            Sprint = new SprintSettings();
+            Team = new TeamSettings();
+
         }
         public CredentialSettings Credentials
         {
-            get { return _credentials; }
+            get;set;
         }
-        public int TeamId { get; set; }
-        
-        public int StoryPointFieldId { get; set; }
-        public int SprintId { get; internal set; }
+
+        public SprintSettings Sprint
+        {
+            get; set;
+        }
+
+        public TeamSettings Team
+        {
+            get; set;
+        }
     }
 }

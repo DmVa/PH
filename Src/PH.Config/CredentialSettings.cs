@@ -11,5 +11,13 @@ namespace PH.Config
         public string UrlBase { get; set; }
         public string UserName { get; set; }
         public string UserPassword { get; set; }
+        public bool IsDefined
+        {
+            get
+            {
+                return !(string.IsNullOrEmpty(UrlBase) || string.IsNullOrEmpty(UserName) || string.IsNullOrEmpty(UserPassword));
+            }
+        }
+        
     }
 }

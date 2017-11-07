@@ -46,6 +46,9 @@
     <Compile Include="DataLoadSettings.cs" />
     <Compile Include="PHConfigSection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SprintSettings.cs" />
+    <Compile Include="TeamSetting.cs" />
+    <Compile Include="UserSetting.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
