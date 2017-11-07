@@ -77,11 +77,20 @@ namespace PH.Data
         }
 
         // key -user key
-        public Dictionary<string, List<WorklogLine>> GetTeamWorklog(DateTime dateFrom, DateTime dateTo)
+        public Dictionary<string, List<WorklogLine>> GetTeamWorklog(DateTime dateFrom, DateTime dateTo, List<IssueData> issues)
         {
             var result = new Dictionary<string, List<WorklogLine>>();
             var worklogs = GetWorklog(dateFrom, dateTo);
             var issueCache = new Dictionary<string, IssueData>();// key ->issue key
+            if (issues != null)
+            {
+                foreach(var issue in issues)
+                {
+                    if (issueCache.ContainsKey(issue.Key))
+                        issueCache.Add(issue.Key, issue);
+                }
+            }
+
             foreach (var worklog in worklogs)
             {
                 List<WorklogLine> userLines = null;
@@ -175,9 +184,16 @@ namespace PH.Data
             while (!isAllGet)
             {
                 IssuesListJira issuesPage = GetIssues(sprintid, startAt);
-                pages.Add(issuesPage);
-                bool isAllget = (issuesPage.StartAt + issuesPage.MaxResults) >= issuesPage.Total;
-                startAt = startAt + issuesPage.MaxResults;
+                if (issuesPage != null)
+                {
+                    pages.Add(issuesPage);
+                    bool isAllget = (issuesPage.StartAt + issuesPage.MaxResults) >= issuesPage.Total;
+                    startAt = startAt + issuesPage.MaxResults;
+                }
+                else
+                {
+                    isAllGet = true;
+                }
             }
             List<IssueData> result = new List<IssueData>();
 

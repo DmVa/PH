@@ -16,16 +16,13 @@ namespace PH.Win.ViewModels
         private bool _commandInProgress;
         private DataService _dataService;
         private ConfigManager _configManger;
-
-
-        
-        
       
 
         
         private UserData _selectedUser;
         
         private List<UserData> _users;
+        private List<IssueData> _issues;
 
         Dictionary<string, List<WorklogLine>> _teamWorklog;
         private DateTime _worklogFromDate;
@@ -159,7 +156,7 @@ namespace PH.Win.ViewModels
 
         private void DoLoadSprintTasks()
         {
-            throw new NotImplementedException();
+            _issues = _dataService.GetIssues(_configManger.Settings.Sprint.SprintId);
         }
 
         private void DoLoadUsers()
@@ -170,6 +167,7 @@ namespace PH.Win.ViewModels
         private void DoSaveSettings()
         {
             _configManger.SaveSettings();
+            _dataService.Init(_configManger.Settings);
         }
 
         private void SetCommandInProgress(bool value)
@@ -187,7 +185,7 @@ namespace PH.Win.ViewModels
         private void DoLoadworklog()
         {
 
-            _teamWorklog = _dataService.GetTeamWorklog(_worklogFromDate, _worklogToDate);
+            _teamWorklog = _dataService.GetTeamWorklog(_worklogFromDate, _worklogToDate, _issues);
             if (SelectedUser != null)
             {
                 RaisePropertyChanged("UserWorklog");

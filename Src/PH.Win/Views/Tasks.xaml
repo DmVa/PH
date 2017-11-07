@@ -13,7 +13,7 @@
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
             <StackPanel Orientation="Horizontal">
-            <Button Content="Load" Margin="5" Width="40" Command="{Binding LoadWorklogCommand}"/>
+            <Button Content="Load" Margin="5" Width="40" Command="{Binding LoadSprintTasksCommand}"/>
          
         </StackPanel>
         
