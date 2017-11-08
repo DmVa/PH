@@ -16,15 +16,15 @@ namespace PH.Win.ViewModels
         private bool _commandInProgress;
         private DataService _dataService;
         private ConfigManager _configManger;
-      
-
         
         private UserData _selectedUser;
         
         private List<UserData> _users;
         private List<IssueData> _issues;
+        private List<WorklogData> _worklogs;
 
         Dictionary<string, List<WorklogLine>> _teamWorklog;
+        Dictionary<string, List<IssueUserStoryData>> _teamIssues;
         private DateTime _worklogFromDate;
         private DateTime _worklogToDate;
 
@@ -77,7 +77,7 @@ namespace PH.Win.ViewModels
                 _selectedUser = value;
                 RaisePropertyChanged();
                 RaisePropertyChanged("UserWorklog");
-
+                RaisePropertyChanged("UserStories");
             }
         }
 
@@ -88,11 +88,45 @@ namespace PH.Win.ViewModels
         {
             get
             {
+                string key = _selectedUser?.Key;
+                if (string.IsNullOrEmpty(key))
+                    key = _dataService.GetAllUsersKey();
+
                 if (_teamWorklog != null)
                 {
-                    if (_teamWorklog.ContainsKey(_selectedUser.Key))
+                    if (_teamWorklog.ContainsKey(key))
                     {
-                        return _teamWorklog[SelectedUser.Key];
+                        return _teamWorklog[key];
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
+        }
+
+        /// <summary>
+        /// This is list is shows userstories for selected user.
+        /// </summary>
+        public List<IssueUserStoryData> UserStories
+        {
+            get
+            {
+                string key = _selectedUser?.Key;
+                if (string.IsNullOrEmpty(key))
+                    key = _dataService.GetAllUsersKey();
+
+                if (_teamIssues != null)
+                {
+                    if (_teamIssues.ContainsKey(key))
+                    {
+                        return _teamIssues[key];
                     }
                     else
                     {
@@ -157,6 +191,8 @@ namespace PH.Win.ViewModels
         private void DoLoadSprintTasks()
         {
             _issues = _dataService.GetIssues(_configManger.Settings.Sprint.SprintId);
+            _teamIssues = _dataService.GetTeamIssues(_issues);
+            RaisePropertyChanged("UserStories");
         }
 
         private void DoLoadUsers()
@@ -184,8 +220,8 @@ namespace PH.Win.ViewModels
 
         private void DoLoadworklog()
         {
-
-            _teamWorklog = _dataService.GetTeamWorklog(_worklogFromDate, _worklogToDate, _issues);
+            _worklogs = _dataService.GetWorklog(_worklogFromDate, _worklogToDate);
+            _teamWorklog = _dataService.GetTeamWorklog(_worklogs, _issues);
             if (SelectedUser != null)
             {
                 RaisePropertyChanged("UserWorklog");

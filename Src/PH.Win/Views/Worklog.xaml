@@ -30,6 +30,14 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     
+                    <GridViewColumn Header="Author" Width="70" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Path=Worklog.AuthorKey}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    
                     <GridViewColumn Header="Comment" Width="160" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -64,14 +72,14 @@
                     <GridViewColumn Header="Estimated" Width="60" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Path=Issue.OriginalEstimateHours}" />
+                                <TextBlock Text="{Binding Path=Issue.OriginalEstimateHours, StringFormat=N2}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="Spent" Width="60" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Path=Issue.TimeSpentHours}" />
+                                <TextBlock Text="{Binding Path=Issue.TimeSpentHours, StringFormat=N2}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

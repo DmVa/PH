@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace PH.Data.JiraData
 {
-    public class IssueJira
+    public  class UserJira
     {
-        public string Self { get; set; }
         public string Key { get; set; }
-        public IssueFieldsJira Fields {get;set;}
+        public string Displayname { get; set; }
     }
 }

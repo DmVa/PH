@@ -3,81 +3,147 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:util="clr-namespace:PH.Win.Util"
              xmlns:local="clr-namespace:PH.Win.Views"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="600">
     
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="35"/>
-                <RowDefinition Height="1*"/>
-            </Grid.RowDefinitions>
-            <StackPanel Orientation="Horizontal">
-            <Button Content="Load" Margin="5" Width="40" Command="{Binding LoadSprintTasksCommand}"/>
-         
-        </StackPanel>
-        
-        <ListView Grid.Row="1" x:Name="UsersList" ItemsSource="{Binding Path=UserWorklog}"  
-                SelectionMode="Single"  >
+                  <RowDefinition Height="35"/>
+                  <RowDefinition Height="Auto"/>
+                  <RowDefinition Height="Auto"/>
+                  <RowDefinition Height="1*"/>
+             </Grid.RowDefinitions>
+            
+             <Button Grid.Row="0" Content="Load" Margin="5" Width="40" Command="{Binding LoadSprintTasksCommand}" HorizontalAlignment="Left"/>
+          
+
+            <ListView Grid.Row="1"  x:Name="UserStories" Margin="0,0,0,20" ItemsSource="{Binding  Path=UserStories}" SelectedIndex="0"
+                        util:GridViewSort.AutoSort="True">
             <ListView.View>
                 <GridView>
-
-                    <GridViewColumn Header="Comment" Width="160" >
+                    <GridViewColumn Header="Key" util:GridViewSort.PropertyName="Key" Width="80">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Path=Worklog.BookedComments}" />
+                                <TextBlock Text="{Binding Key}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    
-                    <GridViewColumn Header="Hours" Width="40" >
+                    <GridViewColumn Header="User" util:GridViewSort.PropertyName="AssignedUserKey" Width="80">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Path=Worklog.BookedHours}" />
+                                <TextBlock Text="{Binding  Path=Issue.AssignedUserKey}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    
-                    <GridViewColumn Header="Issue" Width="80" >
+                    <GridViewColumn Header="Name" util:GridViewSort.PropertyName="Name" Width="140">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Path=Issue.Key}" />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    
-                    <GridViewColumn Header="Summary" Width="170" >
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Path=Issue.Summary}" />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="Estimated" Width="60" >
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Path=Issue.OriginalEstimateHours}" />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="Spent" Width="60" >
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Path=Issue.TimeSpentHours}" />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="Status" Width="80" >
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Path=Issue.Status}" />
+                                <TextBlock Text="{Binding Name}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
+                    <GridViewColumn Header="StoryPoints"  Width="100">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Path=Issue.StoryPoints, StringFormat=N2}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Header="Children Points" Width="100">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Path=StoryPointsBySubIssues, StringFormat=N2}" FontWeight="Bold"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn> 
+                    <GridViewColumn Header="Spent h." Width="100">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Path=SpentHoursBySubIssues, StringFormat=N2}" FontWeight="Bold"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Story p. cost" util:GridViewSort.PropertyName="StoryPointCostBySubIssues" Width="80">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding StoryPointCostBySubIssues, StringFormat=N2}" FontWeight="Bold"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+                
+            </ListView.View>
+        </ListView>
+      
+        <GridSplitter Grid.Row="2" Height="4" VerticalAlignment="Center"  HorizontalAlignment="Stretch" />
+     
+        <ListView Grid.Row="3"  ItemsSource="{Binding  Path=SubIssues}" DataContext="{Binding SelectedItem, ElementName=UserStories}"
+                     util:GridViewSort.AutoSort="True">
+            <ListView.View>
+                
+                <GridView>
+                    <GridViewColumn Header="Key" util:GridViewSort.PropertyName="Key" Width="80">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Key}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Header="User" util:GridViewSort.PropertyName="AssignedUserKey" Width="80">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding AssignedUserKey}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Header="Status" util:GridViewSort.PropertyName="Status" Width="80">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Status}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Header="Summary" util:GridViewSort.PropertyName="Summary" Width="80">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Summary}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Header="StoryPoints" util:GridViewSort.PropertyName="StoryPoints" Width="80">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding StoryPoints, StringFormat=N2}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Header="Spent h." util:GridViewSort.PropertyName="TimeSpentHours" Width="80">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding TimeSpentHours, StringFormat=N2}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Story p. cost" util:GridViewSort.PropertyName="StoryPointCost" Width="80">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding StoryPointCost, StringFormat=N2}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
 
                 </GridView>
             </ListView.View>
         </ListView>
+
     </Grid>
 </UserControl>

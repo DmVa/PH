@@ -51,14 +51,17 @@
   <ItemGroup>
     <Compile Include="DataService.cs" />
     <Compile Include="IssueData.cs" />
+    <Compile Include="IssueUserStoryData.cs" />
     <Compile Include="JiraData\AuthorTempo.cs" />
     <Compile Include="JiraData\IssueFieldsJira.cs" />
     <Compile Include="JiraData\IssueJira.cs" />
     <Compile Include="JiraData\IssuesListJira.cs" />
     <Compile Include="JiraData\IssueStatusJira.cs" />
     <Compile Include="JiraData\IssueTempo.cs" />
+    <Compile Include="JiraData\IssueTypeJira.cs" />
     <Compile Include="JiraData\TeamMembershipTempo.cs" />
     <Compile Include="JiraData\TeamMemberTempo.cs" />
+    <Compile Include="JiraData\UserJira.cs" />
     <Compile Include="JiraData\UserTempo.cs" />
     <Compile Include="JiraData\WorklogTempo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

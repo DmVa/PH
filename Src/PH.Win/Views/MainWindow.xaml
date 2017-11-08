@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PH.Win.Views"
         mc:Ignorable="d"
-        Height="350" Width="950" WindowStartupLocation="CenterScreen" 
+        Height="400" Width="950" WindowStartupLocation="CenterScreen" 
         Title="Progress Helper" Topmost="True">
     <Grid>
         <Grid.RowDefinitions>
@@ -16,10 +16,10 @@
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="150"/>
-                <ColumnDefinition Width="4"/>
+                <ColumnDefinition Width="5"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <local:Users Grid.Column="0" VerticalAlignment="Top" MinHeight="300"/>
+            <local:Users Grid.Column="0" VerticalAlignment="Top" />
             <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" />
             <TabControl Grid.Column="2">
                 <TabItem Header="Worklog" >
