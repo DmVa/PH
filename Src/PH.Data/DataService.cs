@@ -8,6 +8,8 @@ using Atlassian.Jira;
 using RestSharp;
 using PH.Data.JiraData;
 using System.Threading;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace PH.Data
 {
@@ -332,10 +334,26 @@ namespace PH.Data
         private IssuesListJira GetIssues(int sprintid, int startAt)
         {
             var jira = GetClient();
-            var task = jira.RestClient.ExecuteRequestAsync<IssuesListJira>(Method.GET, $"/rest/api/2/search?startAt={startAt}&jql=Sprint={sprintid}");
+            var task = jira.RestClient.ExecuteRequestAsync(Method.GET, $"/rest/api/2/search?startAt={startAt}&jql=Sprint={sprintid}");
             task.Wait();
-            IssuesListJira issue = task.Result;
-            return issue;
+            JToken token = task.Result;
+
+            IssuesListJira issueList = JsonConvert.DeserializeObject<IssuesListJira>(token.ToString(), jira.RestClient.Settings.JsonSerializerSettings);
+            // GOT CUSTOM FIELD VALUE BY FIELD NAME -IT WORKS.
+            //JArray issuesArray = (JArray)token["issues"];
+
+            //foreach (var issueToken in issuesArray.Children())
+            //{
+            //    JObject issueFields = (JObject)issueToken["fields"];
+            //    JValue rank = issueFields["customfield_10011"] as JValue;
+            //    JValue storyPoint = issueFields["customfield_10004"] as JValue;
+            //    if (storyPoint != null && storyPoint.Value != null && storyPoint.Value is double)
+            //    {
+                    
+            //    }
+            //}
+
+            return issueList;
         }
     }
 }
