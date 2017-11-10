@@ -257,15 +257,40 @@ namespace PH.Data
         {
             IssueData result = null;
             var jira = GetClient();
-            var task = jira.RestClient.ExecuteRequestAsync<IssueJira>(Method.GET, $"/rest/api/2/issue/{key}");
+            var task = jira.RestClient.ExecuteRequestAsync(Method.GET, $"/rest/api/2/issue/{key}");
 
             task.Wait();
-            IssueJira issue = task.Result;
+            JToken token = task.Result;
+
+            IssueJira issue = JsonConvert.DeserializeObject<IssueJira>(token.ToString(), jira.RestClient.Settings.JsonSerializerSettings);
+
+            //JArray issuesArray = (JArray)token["issues"];
+
+            SetCustomFields(token, issue);            
+            //    JObject issueFields = (JObject)issueToken["fields"];
+            //    JValue rank = issueFields["customfield_10011"] as JValue;
+            //    JValue storyPoint = issueFields["customfield_10004"] as JValue;
+            //    if (storyPoint != null && storyPoint.Value != null && storyPoint.Value is double)
+            //    {
+
+            //}
+
             result = IssueJiraToIssuesData(issue);
             
 
        
             return result;
+        }
+
+        private void SetCustomFields(JToken issueToken, IssueJira issue)
+        {
+            JObject issueFields = (JObject)issueToken["fields"];
+            JValue rank = issueFields["customfield_10011"] as JValue;
+            JValue storyPoint = issueFields["customfield_10004"] as JValue;
+            if (storyPoint != null && storyPoint.Value != null && storyPoint.Value is double)
+            {
+
+            }
         }
 
         private IssueData IssueJiraToIssuesData(IssueJira issue)
@@ -339,19 +364,14 @@ namespace PH.Data
             JToken token = task.Result;
 
             IssuesListJira issueList = JsonConvert.DeserializeObject<IssuesListJira>(token.ToString(), jira.RestClient.Settings.JsonSerializerSettings);
-            // GOT CUSTOM FIELD VALUE BY FIELD NAME -IT WORKS.
-            //JArray issuesArray = (JArray)token["issues"];
-
-            //foreach (var issueToken in issuesArray.Children())
-            //{
-            //    JObject issueFields = (JObject)issueToken["fields"];
-            //    JValue rank = issueFields["customfield_10011"] as JValue;
-            //    JValue storyPoint = issueFields["customfield_10004"] as JValue;
-            //    if (storyPoint != null && storyPoint.Value != null && storyPoint.Value is double)
-            //    {
-                    
-            //    }
-            //}
+            JArray issuesArray = (JArray)token["issues"];
+            int iterator = 0;
+            foreach (var issueToken in issuesArray.Children())
+            {
+                IssueJira issue = issueList.Issues[iterator];
+                SetCustomFields(issueToken, issue);
+                iterator++;
+            }
 
             return issueList;
         }
