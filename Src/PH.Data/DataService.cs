@@ -45,7 +45,7 @@ namespace PH.Data
         }
         private Jira GetClient()
         {
-            var jira = Jira.CreateRestClient(_loadSettings.Credentials.UrlBase, _loadSettings.Credentials.UserName, _loadSettings.Credentials.UserPassword);
+            var jira = Jira.CreateRestClient(_loadSettings.Credentials.UrlBase, _loadSettings.Credentials.UserName, Encoder.Decode(_loadSettings.Credentials.UserPassword));
             return jira;
         }
 
@@ -285,12 +285,19 @@ namespace PH.Data
         private void SetCustomFields(JToken issueToken, IssueJira issue)
         {
             JObject issueFields = (JObject)issueToken["fields"];
-            JValue rank = issueFields["customfield_10011"] as JValue;
-            JValue storyPoint = issueFields["customfield_10004"] as JValue;
+            JValue storyPoint = issueFields[$"customfield_{_loadSettings.Jira.StoryPointCustomFieldId}"] as JValue;
             if (storyPoint != null && storyPoint.Value != null && storyPoint.Value is double)
             {
-
+                double storyPointValue = (double)storyPoint.Value;
+                issue.StoryPoint = storyPointValue;
             }
+            JValue rank = issueFields[$"customfield_{_loadSettings.Jira.RankCustomFieldId}"] as JValue;
+            if (rank != null && rank.Value != null && rank.Value is string)
+            {
+                string rankValue = (string)rank.Value;
+                issue.Rank = rankValue;
+            }
+
         }
 
         private IssueData IssueJiraToIssuesData(IssueJira issue)
@@ -304,13 +311,13 @@ namespace PH.Data
             //result.AssignedUserKey = issue.Fields?.
             result.Status = issue.Fields?.Status?.Name ?? "";
             result.Summary = issue.Fields?.Summary;
-            result.StoryPoints = issue.Fields?.Customfield_10004 ?? 0;
-            result.Rank = issue.Fields?.Customfield_10011;
+            result.StoryPoints = issue.StoryPoint ?? 0;
+            result.Rank = issue.Rank;
             if (issue.Fields?.Issuetype?.Subtask == true)
                 result.ParentKey = issue.Fields?.Parent?.Key;
 
             result.AssignedUserKey = issue.Fields?.Assignee?.Key ?? VIRTUAL_NOTASSIGNED_KEY;
-            result.OriginalEstimateHours = (double)(issue.Fields?.Customfield_10004 * 4);
+            result.OriginalEstimateHours = (double)(result.StoryPoints * 4);
             result.TimeSpentSeconds = (double)issue.Fields?.Timespent;
             result.TimeSpentHours = (double)(issue.Fields?.Timespent / 60 / 60);
 

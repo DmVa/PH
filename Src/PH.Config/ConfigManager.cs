@@ -71,11 +71,12 @@ namespace PH.Config
         {
             DataLoadSettings settings = new DataLoadSettings();
             settings.Credentials.UserName = "dmytro";
-            settings.Credentials.UserPassword = "bobik_2015";
+            settings.Credentials.UserPassword = "ޡޢޣޤޢޯޢީޫޟ߲߰߱ߵ";
             settings.Credentials.UrlBase = "https://preciseres.atlassian.net";
 
             settings.Team.TeamId = 2;// Dev team
-           // settings.StoryPointFieldId = 10004;
+            settings.Jira.StoryPointCustomFieldId = 10004;
+            settings.Jira.RankCustomFieldId = 10011;
             settings.Sprint.SprintId = 70;
                 settings.Sprint.DateFrom = DateTime.Now;
                 settings.Sprint.DateTo = DateTime.Now;

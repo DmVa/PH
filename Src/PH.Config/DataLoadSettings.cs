@@ -13,8 +13,9 @@ namespace PH.Config
             Credentials = new CredentialSettings();
             Sprint = new SprintSettings();
             Team = new TeamSettings();
-
+            Jira = new JiraSettings();
         }
+
         public CredentialSettings Credentials
         {
             get;set;
@@ -26,6 +27,10 @@ namespace PH.Config
         }
 
         public TeamSettings Team
+        {
+            get; set;
+        }
+        public JiraSettings Jira
         {
             get; set;
         }

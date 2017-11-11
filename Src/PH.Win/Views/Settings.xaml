@@ -9,7 +9,8 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="35"/>
-            <RowDefinition Height="1*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -52,8 +53,8 @@
                 <TextBlock Grid.Row="0"  Text="Team Id"/>
                 <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=Team.TeamId}" Margin="2"/>
                 
-                <TextBlock Grid.Row="1"  Text="Reserved days"/>
-                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Team.ReservedDaysForAllTeam}" Margin="2"/>
+                <!--<TextBlock Grid.Row="1"  Text="Reserved days"/>
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Team.ReservedDaysForAllTeam}" Margin="2"/>-->
             </Grid>
         </GroupBox>
         <GroupBox Grid.Row="1" Header="Credentials" Grid.Column="2" VerticalAlignment="Top" DataContext="{Binding Path=Settings}">
@@ -75,6 +76,24 @@
                 <TextBlock Grid.Row="2"  Text="Password"/>
                 <PasswordBox PasswordChar="*" Grid.Row="2" Grid.Column="1" PasswordChanged="PasswordBox_PasswordChanged" Margin="2"/>
                 
+            </Grid>
+        </GroupBox>
+        <GroupBox Grid.Row="2" Grid.Column="0" Header="Jira"  VerticalAlignment="Top" DataContext="{Binding Path=Settings}">
+            <Grid VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="110"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0"  Text="Rank Field Id"/>
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=Jira.RankCustomFieldId}" Margin="2"/>
+
+                <TextBlock Grid.Row="1"  Text="Story Point Field Id"/>
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Jira.StoryPointCustomFieldId}" Margin="2"/>
             </Grid>
         </GroupBox>
 

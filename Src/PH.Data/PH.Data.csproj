@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataService.cs" />
+    <Compile Include="Encoder.cs" />
     <Compile Include="IssueData.cs" />
     <Compile Include="IssueUserStoryData.cs" />
     <Compile Include="JiraData\AuthorTempo.cs" />

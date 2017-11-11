@@ -29,7 +29,7 @@ namespace PH.Win.Views
         {
             if (this.DataContext != null)
             {
-                ((dynamic)this.DataContext).Credentials.UserPassword = ((PasswordBox)sender).Password;
+                ((dynamic)this.DataContext).Settings.Credentials.UserPassword = PH.Data.Encoder.Encode(((PasswordBox)sender).Password);
             }
         }
     }
