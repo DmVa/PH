@@ -56,29 +56,53 @@ namespace PH.Data
             var result = new List<UserData>();
             var jira = GetClient();
             var usersTask = jira.RestClient.ExecuteRequestAsync<List<UserTempo>>(Method.GET, $"/rest/tempo-teams/2/team/{_loadSettings.Team.TeamId}/member");
-       
-            usersTask.Wait();
-            foreach (var user in usersTask.Result)
-            {
-                if (!user.Member?.ActiveInJira ?? false)
-                    continue;
-                if (!string.IsNullOrEmpty(user.Membership?.DateToANSI))
-                    continue;
 
-                if (user.Member.ActiveInJira )
+
+            try
+            {
+                usersTask.Wait();
+
+
+                foreach (var user in usersTask.Result)
                 {
-                    var userData = new UserData();
-                    userData.Key = user?.Member?.Key ?? "";
-                    userData.DisplayName = user?.Member?.Displayname ?? "";
-                    result.Add(userData);
+                    if (!user.Member?.ActiveInJira ?? false)
+                        continue;
+                    if (!string.IsNullOrEmpty(user.Membership?.DateToANSI))
+                        continue;
+
+                    if (user.Member.ActiveInJira)
+                    {
+                        var userData = new UserData();
+                        userData.Key = user?.Member?.Key ?? "";
+                        userData.DisplayName = user?.Member?.Displayname ?? "";
+                        result.Add(userData);
+                    }
                 }
             }
-
+            catch (Exception ex)
+            {
+                result = getDefaultUsers();
+            }
+        
             result.Add(new UserData() { Key = VIRTUAL_NOTASSIGNED_KEY, DisplayName = "Not Assigned" });
             result.Add(new UserData() { Key = VIRTUAL_TEAMUSER_KEY, DisplayName = "Team" });
             
             return result;
         }
+
+    private List<UserData> getDefaultUsers()
+    {
+        var result = new List<UserData>();
+            result.Add(new UserData() { Key = "maksym.tkachenko", DisplayName= "maksym.tkachenko" });
+            result.Add(new UserData() { Key = "nikolay.reshetinsky", DisplayName = "nikolay.reshetinsky" });
+            result.Add(new UserData() { Key = "andrey.nikolaev", DisplayName = "andrey.nikolaev" });
+            result.Add(new UserData() { Key = "dmytro.kononenko", DisplayName = "dmytro.kononenko" });
+            result.Add(new UserData() { Key = "alexander.solovyh", DisplayName = "alexander.solovyh" });
+            result.Add(new UserData() { Key = "kostya", DisplayName = "kostya" });
+            result.Add(new UserData() { Key = "mlazorenko", DisplayName = "mlazorenko" });
+            result.Add(new UserData() { Key = "dmytro", DisplayName = "dmytro" });
+            return result;
+    }
 
         public Task<List<UserData>> LoadUsersAsync()
         {
