@@ -93,14 +93,16 @@ namespace PH.Data
     private List<UserData> getDefaultUsers()
     {
         var result = new List<UserData>();
-            result.Add(new UserData() { Key = "maksym.tkachenko", DisplayName= "maksym.tkachenko" });
-            result.Add(new UserData() { Key = "nikolay.reshetinsky", DisplayName = "nikolay.reshetinsky" });
-            result.Add(new UserData() { Key = "andrey.nikolaev", DisplayName = "andrey.nikolaev" });
-            result.Add(new UserData() { Key = "dmytro.kononenko", DisplayName = "dmytro.kononenko" });
             result.Add(new UserData() { Key = "alexander.solovyh", DisplayName = "alexander.solovyh" });
-            result.Add(new UserData() { Key = "kostya", DisplayName = "kostya" });
+            result.Add(new UserData() { Key = "kostiantyn.chetvernia", DisplayName = "kostiantyn.chetvernia" });
+            result.Add(new UserData() { Key = "nikolay.reshetinsky", DisplayName = "nikolay.reshetinsky" });
+            result.Add(new UserData() { Key = "maksym.tkachenko", DisplayName= "maksym.tkachenko" });
+            result.Add(new UserData() { Key = "dmytro.kononenko", DisplayName = "dmytro.kononenko" });
+            result.Add(new UserData() { Key = "andrey.nikolayev", DisplayName = "andrey.nikolayev" });
             result.Add(new UserData() { Key = "mlazorenko", DisplayName = "mlazorenko" });
             result.Add(new UserData() { Key = "dmytro", DisplayName = "dmytro" });
+            result.Add(new UserData() { Key = "kostya", DisplayName = "kostya" });
+            result.Add(new UserData() { Key = "kostya.bryantsev", DisplayName = "kostya.bryantsev" });
             return result;
     }
 
